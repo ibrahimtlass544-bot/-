@@ -3,189 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ملخص الذكاء الاصطناعي - AI Summarizer & Transcriber</title>
-    <!-- Tailwind CSS for modern responsive styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts Cairo -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>مختصر الذكاء الاصطناعي - منصة التلخيص الاحترافية</title>
+    <!-- Tailwind CSS للواجهات -->
+    <script src="https://jsdelivr.net"></script>
+    <link href="https://googleapis.com" rel="stylesheet">
+    <!-- مكتبة PDF -->
+    <script src="https://cloudflare.com"></script>
     <style>
         body { font-family: 'Cairo', sans-serif; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
 
-    <!-- Header / Navigation -->
-    <header class="bg-white shadow-sm border-b border-gray-200">
-        <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div class="flex items-center gap-3">
-                <div class="bg-blue-600 text-white p-2.5 rounded-xl shadow-md shadow-blue-200">
-                    <i class="fa-solid fa-brain text-xl"></i>
-                </div>
-                <div>
-                    <h1 class="text-xl font-bold text-gray-900">مُلخِّص الذكاء الاصطناعي</h1>
-                    <p class="text-xs text-gray-500">منصة تفريغ الصوت وتلخيص الملفات الذكية</p>
-                </div>
-            </div>
-            <!-- Wallet/Credits Section for Business Monetization -->
-            <div class="flex items-center gap-3 bg-blue-50 px-4 py-2 rounded-xl border border-blue-100">
-                <i class="fa-solid fa-wallet text-blue-600"></i>
-                <span class="text-sm font-semibold text-gray-700">رصيدك:</span>
-                <span id="credit-count" class="text-sm font-bold text-blue-600 bg-white px-2 py-0.5 rounded-md shadow-sm border border-blue-200">15 دقيقة</span>
-                <button class="bg-blue-600 hover:bg-blue-700 text-white text-xs px-2.5 py-1 rounded-lg font-medium transition-colors">شحن</button>
+    <!-- شريط التنقل العلوي -->
+    <nav class="bg-white shadow-sm border-b border-gray-100 p-4 sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold text-indigo-600 flex items-center gap-2">
+                <span>⚡</span> مختصر الذكاء الاصطناعي Pro
+            </h1>
+            <div class="flex items-center gap-4">
+                <span id="usage-counter" class="bg-indigo-50 text-indigo-700 px-3 py-1.5 rounded-full text-sm font-medium">
+                    🔄 العمليات المتاحة لك: 3 محاولات تجريبية
+                </span>
             </div>
         </div>
-    </header>
+    </nav>
 
-    <!-- Main Workspace Container -->
-    <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <!-- المحتوى الرئيسي -->
+    <main class="flex-grow max-w-5xl w-full mx-auto p-4 md:p-8">
         
-        <!-- Left Column: Input Panels (Takes 5 cols on desktop) -->
-        <section class="lg:col-span-5 flex flex-col gap-6">
-            
-            <!-- API Key Configuration Section -->
-            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                <h2 class="text-md font-bold text-gray-900 mb-3 flex items-center gap-2">
-                    <i class="fa-solid fa-key text-amber-500"></i> إعدادات الربط
-                </h2>
-                <div class="space-y-3">
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">مفتاح OpenAI API Key الخاص بك:</label>
-                        <input type="password" id="api-key" placeholder="sk-proj-..." class="w-full text-left px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dir-ltr bg-gray-50 focus:bg-white transition-all">
-                        <p class="text-[11px] text-gray-400 mt-1">يتم حفظ المفتاح محلياً في متصفحك بشكل آمن تماماً ولا يمر عبر أي سيرفر خارجي.</p>
-                    </div>
-                </div>
-            </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- التحكم والأسعار -->
+            <div class="md:col-span-1 space-y-6">
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
+                    <h2 class="font-bold text-lg mb-4 text-gray-900">1. إعدادات التلخيص</h2>
+                    
+                    <label class="block text-sm font-medium text-gray-700 mb-2">نوع المستند/الخدمة:</label>
+                    <select id="task-type" class="w-full bg-gray-50 border border-gray-200 rounded-xl p-2.5 mb-4 text-sm focus:ring-2 focus:ring-indigo-500">
+                        <option value="text">📄 تلخيص مستند (PDF / نص طويل)</option>
+                        <option value="audio">🎙️ تفريغ صوت وتحويله لنص</option>
+                    </select>
 
-            <!-- Tabs Navigation for Features -->
-            <div class="bg-white rounded-2xl p-2 shadow-sm border border-gray-100 flex gap-2">
-                <button id="tab-audio" class="flex-1 py-2.5 rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2 bg-blue-600 text-white shadow-sm shadow-blue-100">
-                    <i class="fa-solid fa-microphone"></i> تفريغ صوتي
-                </button>
-                <button id="tab-text" class="flex-1 py-2.5 rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2 text-gray-600 hover:bg-gray-50">
-                    <i class="fa-solid fa-file-lines"></i> تلخيص نصوص/ملفات
-                </button>
-            </div>
-
-            <!-- Tab Content 1: Audio Processing -->
-            <div id="panel-audio" class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 space-y-4">
-                <h3 class="font-bold text-gray-900 text-sm">ارفع ملفك الصوتي للتفريغ</h3>
-                
-                <!-- File Upload Area -->
-                <div class="border-2 border-dashed border-gray-200 hover:border-blue-400 rounded-xl p-6 text-center cursor-pointer transition-colors bg-gray-50/50 relative" id="drop-zone">
-                    <input type="file" id="audio-file" accept="audio/*,video/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
-                    <i class="fa-solid fa-cloud-arrow-up text-3xl text-gray-400 mb-2"></i>
-                    <p class="text-sm font-semibold text-gray-700">اسحب الملف هنا أو اضغط للاختيار</p>
-                    <p class="text-xs text-gray-400 mt-1">يدعم MP3, WAV, M4A, MP4 (بحد أقصى 25 ميجابايت)</p>
-                </div>
-                <div id="file-info" class="hidden text-xs bg-gray-50 p-2.5 rounded-lg border border-gray-200 text-gray-600 flex items-center justify-between">
-                    <span class="truncate font-medium max-w-[200px]" id="file-name">filename.mp3</span>
-                    <button id="remove-file" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash"></i></button>
-                </div>
-
-                <!-- Run Button -->
-                <button id="btn-transcribe" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl shadow-md shadow-blue-200 transition-all flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i> ابدأ التفريغ الذكي والتفريغ
-                </button>
-            </div>
-
-            <!-- Tab Content 2: Text/File Summary (Hidden by Default) -->
-            <div id="panel-text" class="hidden bg-white rounded-2xl p-6 shadow-sm border border-gray-100 space-y-4">
-                <h3 class="font-bold text-gray-900 text-sm">أدخل النص أو الصق المحتوى مباشرة</h3>
-                <textarea id="text-input" rows="8" placeholder="قم بلصق المقال، النص، أو المحتوى المراد تلخيصه هنا مباشرة..." class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none bg-gray-50 focus:bg-white transition-all"></textarea>
-                
-                <div>
-                    <label class="block text-xs font-semibold text-gray-600 mb-2">أسلوب التلخيص المفضل:</label>
-                    <select id="summary-style" class="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
-                        <option value="bullet">نقاط رئيسية محددة ومتسلسلة</option>
-                        <option value="executive">ملخص تنفيذي شامل (فقرات مكتوبة)</option>
-                        <option value="qa">صيغة سؤال وجواب تفاعلي</option>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">أسلوب التلخيص:</label>
+                    <select id="summary-style" class="w-full bg-gray-50 border border-gray-200 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-indigo-500">
+                        <option value="bullet">📌 نقاط رئيسية وموجزة</option>
+                        <option value="executive">📝 ملخص تنفيذي شامل</option>
+                        <option value="qa">❓ سيناريو سؤال وجواب</option>
                     </select>
                 </div>
 
-                <!-- Run Button -->
-                <button id="btn-summarize" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl shadow-md shadow-indigo-200 transition-all flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-compress"></i> لخص النص الآن
-                </button>
-            </div>
-
-        </section>
-
-        <!-- Right Column: Live Output & Results (Takes 7 cols on desktop) -->
-        <section class="lg:col-span-7 flex flex-col gap-6">
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 flex-grow flex flex-col min-h-[450px]">
-                
-                <!-- Output Header / Controls -->
-                <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50 rounded-t-2xl">
-                    <div class="flex items-center gap-2">
-                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                        <h2 class="text-sm font-bold text-gray-900">شاشة النتائج الذكية</h2>
-                    </div>
-                    <!-- Actions Row (Enabled only when there's text) -->
-                    <div class="flex gap-2" id="output-actions">
-                        <button id="btn-copy" class="text-gray-500 hover:text-blue-600 bg-white p-2 rounded-lg border border-gray-200 shadow-sm text-xs flex items-center gap-1.5 transition-colors" title="نسخ إلى الحافظة">
-                            <i class="fa-regular fa-copy"></i> <span class="hidden sm:inline">نسخ</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Dynamic Output Area -->
-                <div class="p-6 flex-grow flex flex-col justify-start relative overflow-y-auto max-h-[600px]">
+                <!-- صندوق باقات الاشتراك المعدل تجارياً -->
+                <div class="bg-gradient-to-br from-indigo-600 to-purple-700 text-white p-5 rounded-2xl shadow-md space-y-4">
+                    <h3 class="font-bold text-lg border-b border-indigo-400 pb-2">💎 اشتراك المنصة المدفوع</h3>
                     
-                    <!-- Loading Spinner Overlay (Hidden by default) -->
-                    <div id="loading-overlay" class="hidden absolute inset-0 bg-white/80 backdrop-blur-xs z-10 flex flex-col items-center justify-center text-center p-6 animate-fade-in">
-                        <div class="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mb-4"></div>
-                        <p class="font-bold text-gray-900 text-md" id="loading-status">يجري الآن قراءة ومعالجة الملف...</p>
-                        <p class="text-xs text-gray-400 mt-1">برجاء عدم إغلاق الصفحة، قد يستغرق الأمر دقيقة حسب حجم الملف.</p>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span>الباقة الشهرية Standard:</span>
+                            <span class="font-bold">9.99$ / شهرياً</span>
+                        </div>
+                        <p class="text-xs text-indigo-200">تمنحك تلخيص 100 ملف PDF شهرياً و 5 ساعات تفريغ صوتي.</p>
                     </div>
 
-                    <!-- Placeholder Welcome State (Shown initially) -->
-                    <div id="output-placeholder" class="my-auto text-center p-8 max-w-md mx-auto space-y-3">
-                        <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto text-gray-300 border border-gray-100">
-                            <i class="fa-solid fa-terminal text-2xl"></i>
+                    <div class="space-y-2 text-sm border-t border-indigo-500 pt-2">
+                        <div class="flex justify-between">
+                            <span>الباقة غير المحدودة Pro:</span>
+                            <span class="font-bold">24.99$ / شهرياً</span>
                         </div>
-                        <h3 class="font-bold text-gray-700 text-sm">في انتظار إدخالك</h3>
-                        <p class="text-xs text-gray-400 leading-relaxed">قم بتهيئة مفتاح الـ API، ثم ارفع ملفك الصوتي أو أدخل نصوصك لتبدأ الخوارزميات الذكية في عرض النتائج والتلخيص الفوري هنا.</p>
+                        <p class="text-xs text-indigo-200">استخدام مفتوح بالكامل، دعم تفريغ ملفات أكبر، وتصدير بصيغة Word.</p>
                     </div>
 
-                    <!-- Real Result Container (Hidden initially) -->
-                    <div id="output-result-container" class="hidden space-y-6 w-full text-right">
-                        
-                        <!-- Block 1: Transcription Result (If generated) -->
-                        <div id="block-transcription" class="hidden space-y-2">
-                            <h4 class="text-xs font-bold text-blue-600 uppercase tracking-wide flex items-center gap-1.5">
-                                <i class="fa-solid fa-quote-right"></i> النص الكامل المفرغ:
-                            </h4>
-                            <div id="text-transcription-output" class="bg-gray-50 p-4 rounded-xl text-sm border border-gray-100 leading-relaxed text-gray-700 max-h-[200px] overflow-y-auto whitespace-pre-line">
-                            </div>
-                        </div>
-
-                        <!-- Block 2: AI Summary Result -->
-                        <div id="block-summary" class="space-y-2">
-                            <h4 class="text-xs font-bold text-indigo-600 uppercase tracking-wide flex items-center gap-1.5">
-                                <i class="fa-solid fa-list-check"></i> ملخص الذكاء الاصطناعي الذكي:
-                            </h4>
-                            <div id="text-summary-output" class="bg-indigo-50/30 p-5 rounded-xl text-sm border border-indigo-100/50 leading-relaxed text-gray-800 font-medium whitespace-pre-line">
-                            </div>
-                        </div>
-
-                    </div>
-
+                    <button onclick="openPaymentMock()" class="w-full bg-white text-indigo-700 font-bold py-2.5 rounded-xl text-sm shadow hover:bg-indigo-50 transition mt-2">
+                        اشترك الآن وفّع حسابك
+                    </button>
                 </div>
             </div>
-        </section>
 
+            <!-- مساحة المعالجة وعرض النتائج -->
+            <div class="md:col-span-2 space-y-6">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 text-center">
+                    <div id="drop-zone" class="border-2 border-dashed border-gray-200 hover:border-indigo-400 rounded-2xl p-8 cursor-pointer transition bg-gray-50/50">
+                        <span class="text-4xl block mb-3">📁</span>
+                        <p class="font-medium text-gray-700 mb-1">اسحب وأفلت الملف هنا أو اضغط للتصفح</p>
+                        <p class="text-xs text-gray-400">يدعم ملفات الصوت (MP3, WAV) والمستندات (PDF, TXT)</p>
+                        <input type="file" id="file-input" class="hidden" accept="audio/*,text/plain,application/pdf">
+                    </div>
+
+                    <div class="mt-4 text-right">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">أو الصق النص هنا مباشرة:</label>
+                        <textarea id="text-input" rows="4" placeholder="ألصق مستندك هنا للتلخيص الفوري..." class="w-full bg-gray-50 border border-gray-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"></textarea>
+                    </div>
+
+                    <button id="process-btn" onclick="startProcessing()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-xl mt-4 shadow-sm transition flex items-center justify-center gap-2">
+                        <span>✨</span> ابدأ المعالجة الذكية
+                    </button>
+                </div>
+
+                <!-- لوحة عرض النتائج -->
+                <div id="result-container" class="hidden bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-4">
+                    <div class="flex justify-between items-center border-b border-gray-100 pb-3">
+                        <h3 class="font-bold text-lg text-gray-900 flex items-center gap-2">
+                            <span>✅</span> ملخص الذكاء الاصطناعي:
+                        </h3>
+                        <button onclick="copyResult()" class="text-sm bg-gray-100 text-gray-600 px-3 py-1 rounded-lg hover:bg-gray-200 transition">📋 نسخ النص</button>
+                    </div>
+                    
+                    <div id="loading-spinner" class="hidden text-center py-8">
+                        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 mx-auto mb-2"></div>
+                        <p class="text-sm text-gray-500" id="loading-text">جاري المعالجة...</p>
+                    </div>
+
+                    <div id="result-text" class="text-gray-700 leading-relaxed whitespace-pre-wrap text-right bg-gray-50 p-4 rounded-xl text-sm min-h-[100px]">
+                        ستظهر النتيجة هنا...
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-white border-t border-gray-100 py-4 text-center mt-8">
-        <p class="text-xs text-gray-400">© 2026 تطبيق مُلخِّص الذكاء الاصطناعي الربحي الذكي. مبرمج ومعد بالكامل وجاهز للتشغيل.</p>
+    <footer class="bg-white border-t border-gray-100 p-4 text-center text-xs text-gray-400">
+        جميع الحقوق محفوظة لمنصتك التجارية © 2026
     </footer>
 
-    <!-- App JavaScript Logic -->
     <script src="app.js"></script>
 </body>
 </html>
